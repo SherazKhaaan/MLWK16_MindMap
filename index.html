@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generative Adversarial Networks &amp; Optimization Mind Map</title>
+  <!-- Load MathJax for LaTeX rendering -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mindmap {
+      position: relative;
+      width: 1400px;
+      height: 1200px;
+      margin: 20px 0;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .node {
+      position: absolute;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-weight: bold;
+    }
+    .node:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    /* Colors */
+    .red {
+      background-color: #ffcccc;
+      border: 2px solid #e60000;
+      color: #990000;
+    }
+    .blue {
+      background-color: #cce5ff;
+      border: 2px solid #0066cc;
+      color: #004080;
+    }
+    .green {
+      background-color: #ccffcc;
+      border: 2px solid #00cc00;
+      color: #006600;
+      font-weight: normal;
+    }
+    /* Info panel styles */
+    #infoPanel {
+      width: 1400px;
+      min-height: 150px;
+      padding: 15px;
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: none;
+    }
+    .infoTitle {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+    }
+    .infoContent {
+      line-height: 1.5;
+    }
+    line {
+      stroke: #999;
+      stroke-width: 2;
+    }
+    .legend {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+    }
+    .legendItem {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .legendBox {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Generative Adversarial Networks &amp; Optimization</h1>
+    
+    <div class="mindmap" id="mindmap">
+      <!-- SVG connecting lines -->
+      <svg width="1400" height="1200" style="position: absolute; top: 0; left: 0;">
+        <!-- Lines from central node to blue nodes -->
+        <!-- Assume central node center at (700,600) -->
+        <line x1="700" y1="600" x2="150" y2="150" />    <!-- GAN Fundamentals -->
+        <line x1="700" y1="600" x2="1250" y2="150" />   <!-- Stability & Analysis -->
+        <line x1="700" y1="600" x2="1350" y2="600" />   <!-- Optimization & Duality -->
+        <line x1="700" y1="600" x2="1250" y2="1050" />  <!-- Wasserstein & Loss -->
+        <line x1="700" y1="600" x2="150" y2="1050" />   <!-- Advanced Techniques -->
+        <line x1="700" y1="600" x2="350" y2="1000" />   <!-- Conditional & Translation -->
+        <line x1="700" y1="600" x2="350" y2="150" />    <!-- StyleGAN & Inversion -->
+        
+        <!-- Connect blue nodes to their green subnodes -->
+        <!-- For Blue Node 1: GAN Fundamentals -->
+        <line x1="150" y1="150" x2="130" y2="220" />  <!-- Discrimination as a Signal -->
+        <line x1="150" y1="150" x2="130" y2="280" />  <!-- GAN Mechanism -->
+        <line x1="150" y1="150" x2="130" y2="340" />  <!-- GAN Loss Functions -->
+        
+        <!-- Blue Node 2: Stability & Analysis -->
+        <line x1="1250" y1="150" x2="1230" y2="220" /> <!-- Improving Stability -->
+        <line x1="1250" y1="150" x2="1230" y2="280" /> <!-- Loss Analysis (JS divergence, vanishing gradients) -->
+        
+        <!-- Blue Node 3: Optimization & Duality -->
+        <line x1="1350" y1="600" x2="1330" y2="670" /> <!-- Linear Programming -->
+        <line x1="1350" y1="600" x2="1330" y2="730" /> <!-- Duality Theory -->
+        
+        <!-- Blue Node 4: Wasserstein & Loss -->
+        <line x1="1250" y1="1050" x2="1230" y2="1120" /> <!-- Wasserstein Distance (primal/dual) -->
+        <line x1="1250" y1="1050" x2="1230" y2="1180" /> <!-- Wasserstein GAN Loss Function -->
+        
+        <!-- Blue Node 5: Advanced Techniques -->
+        <line x1="150" y1="1050" x2="130" y2="1120" /> <!-- Progressive Growing -->
+        <line x1="150" y1="1050" x2="130" y2="1180" /> <!-- Minibatch Discrimination & Truncation -->
+        
+        <!-- Blue Node 6: Conditional & Translation -->
+        <line x1="350" y1="1000" x2="330" y2="1070" /> <!-- Conditional Generation -->
+        <line x1="350" y1="1000" x2="330" y2="1130" /> <!-- Image Translation -->
+        
+        <!-- Blue Node 7: StyleGAN & Inversion -->
+        <line x1="350" y1="150" x2="330" y2="220" />  <!-- StyleGAN -->
+        <line x1="350" y1="150" x2="330" y2="280" />  <!-- Inverting GANs & Conclusion -->
+      </svg>
+      
+      <!-- Central Red Node -->
+      <div class="node red" style="width: 280px; top: 540px; left: 560px;" 
+           onclick="showInfo('Generative Adversarial Networks', 
+           '&lt;ul&gt;&lt;li&gt;GANs aim to generate new data samples \\( \\tilde{x} \\) from a latent variable \\( z \\) such that \\( \\tilde{x} \\sim P_{data} \\).&lt;/li&gt;&lt;li&gt;They consist of a generator \\( g(z,\\theta) \\) and a discriminator \\( f(x,\\phi) \\).&lt;/li&gt;&lt;li&gt;Training is formulated as a minimax game.&lt;/li&gt;&lt;/ul&gt;')">
+        Generative Adversarial Networks
+      </div>
+      
+      <!-- Blue Node 1: GAN Fundamentals -->
+      <div class="node blue" style="width: 250px; top: 20px; left: 50px;" 
+           onclick="showInfo('GAN Fundamentals', 
+           '&lt;ul&gt;&lt;li&gt;Discrimination as a Signal: The discriminator helps the generator improve by providing a learning signal.&lt;/li&gt;&lt;li&gt;GAN Mechanism: \\( \\tilde{x}_j = g(z_j,\\theta) \\), where \\( z_j \\sim \\mathcal{N}(0, I) \\).&lt;/li&gt;&lt;li&gt;Loss Functions: Discriminator loss: \\( L_{\\phi} = \\sum_j \\log(1 - \\sigma(f(\\tilde{x}_j,\\phi))) + \\sum_i \\log(\\sigma(f(x_i,\\phi))) \\).&lt;/li&gt;&lt;/ul&gt;')">
+        GAN Fundamentals
+      </div>
+      <!-- Green Nodes for GAN Fundamentals -->
+      <div class="node green" style="width: 220px; top: 110px; left: 50px;" 
+           onclick="showInfo('Discrimination as a Signal', 
+           '&lt;ul&gt;&lt;li&gt;Objective: Generate samples \\( \\tilde{x}_j \\) that are indistinguishable from real data \\( x_i \\).&lt;/li&gt;&lt;li&gt;Latent sampling: \\( z_j \\sim \\mathcal{N}(0, I) \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Discrimination as a Signal
+      </div>
+      <div class="node green" style="width: 220px; top: 170px; left: 50px;" 
+           onclick="showInfo('GAN Mechanism', 
+           '&lt;ul&gt;&lt;li&gt;Generator: \\( \\tilde{x}_j = g(z_j,\\theta) \\).&lt;/li&gt;&lt;li&gt;Discriminator: \\( f(x,\\phi) \\) returns a scalar; higher for real data.&lt;/li&gt;&lt;/ul&gt;')">
+        GAN Mechanism
+      </div>
+      <div class="node green" style="width: 220px; top: 230px; left: 50px;" 
+           onclick="showInfo('GAN Loss Functions', 
+           '&lt;ul&gt;&lt;li&gt;Discriminator loss: \\( \\hat{\\phi} = \\arg\\min_{\\phi} \\left[ \\sum_j \\log\\left(1-\\sigma(f(g(z_j,\\theta),\\phi))\\right) + \\sum_i \\log\\left(\\sigma(f(x_i,\\phi))\\right) \\right] \\).&lt;/li&gt;&lt;li&gt;Generator loss: \\( \\hat{\\theta} = \\arg\\max_{\\theta} \\left[ \\sum_j \\log\\left(1-\\sigma(f(g(z_j,\\theta),\\phi))\\right) \\right] \\).&lt;/li&gt;&lt;/ul&gt;')">
+        GAN Loss Functions
+      </div>
+      
+      <!-- Blue Node 2: Stability & Analysis -->
+      <div class="node blue" style="width: 250px; top: 20px; left: 1050px;" 
+           onclick="showInfo('Stability &amp; Analysis', 
+           '&lt;ul&gt;&lt;li&gt;Improving stability: Analyze loss functions via expectations and use JS divergence.&lt;/li&gt;&lt;li&gt;Vanishing gradients occur when the discriminator becomes too strong.&lt;/li&gt;&lt;/ul&gt;')">
+        Stability &amp; Analysis
+      </div>
+      <!-- Green Nodes for Stability & Analysis -->
+      <div class="node green" style="width: 220px; top: 110px; left: 1050px;" 
+           onclick="showInfo('Improving Stability', 
+           '&lt;ul&gt;&lt;li&gt;Express loss as expectations: \\( \\mathbb{E}_{x\\sim P_{data}}[\\log\\sigma(f(x,\\phi))] + \\mathbb{E}_{\\tilde{x}\\sim P_{g}}[\\log(1-\\sigma(f(\\tilde{x},\\phi)))] \\).&lt;/li&gt;&lt;li&gt;Use techniques to avoid vanishing gradients.&lt;/li&gt;&lt;/ul&gt;')">
+        Improving Stability
+      </div>
+      <div class="node green" style="width: 220px; top: 170px; left: 1050px;" 
+           onclick="showInfo('Loss Analysis', 
+           '&lt;ul&gt;&lt;li&gt;Optimal discriminator: \\( D^*(x) = \\frac{P_{data}(x)}{P_{data}(x)+P_{g}(x)} \\).&lt;/li&gt;&lt;li&gt;This leads to the Jensen-Shannon divergence between \\( P_{data} \\) and \\( P_{g} \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Loss Analysis
+      </div>
+      
+      <!-- Blue Node 3: Optimization & Duality -->
+      <div class="node blue" style="width: 250px; top: 500px; left: 1150px;" 
+           onclick="showInfo('Optimization &amp; Duality', 
+           '&lt;ul&gt;&lt;li&gt;Many GAN analyses involve solving linear programming problems.&lt;/li&gt;&lt;li&gt;Duality theory provides bounds: \\( \\min c^Tx \\) subject to \\( Ax \\ge b \\) vs. its dual.&lt;/li&gt;&lt;/ul&gt;')">
+        Optimization &amp; Duality
+      </div>
+      <!-- Green Nodes for Optimization & Duality -->
+      <div class="node green" style="width: 220px; top: 570px; left: 1150px;" 
+           onclick="showInfo('Linear Programming', 
+           '&lt;ul&gt;&lt;li&gt;Standard form: minimize \\( c^T x \\) subject to \\( Ax = b,\\, x \\ge 0 \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Linear Programming
+      </div>
+      <div class="node green" style="width: 220px; top: 630px; left: 1150px;" 
+           onclick="showInfo('Duality Theory', 
+           '&lt;ul&gt;&lt;li&gt;Weak duality: \\( p^T b \\le c^T x \\). Strong duality holds under certain conditions.&lt;/li&gt;&lt;/ul&gt;')">
+        Duality Theory
+      </div>
+      
+      <!-- Blue Node 4: Wasserstein Distance & Loss -->
+      <div class="node blue" style="width: 250px; top: 900px; left: 1050px;" 
+           onclick="showInfo('Wasserstein Distance &amp; Loss', 
+           '&lt;ul&gt;&lt;li&gt;Wasserstein distance measures the “work” to transport one distribution to another.&lt;/li&gt;&lt;li&gt;Primal form: \\( D_w(P, Q) = \\min_P \\sum_{i,j} P_{ij} |i - j| \\) subject to constraints.&lt;/li&gt;&lt;li&gt;Dual form: \\( D_w(P, Q) = \\max_f \\left[ \\mathbb{E}_{x\\sim P}[f(x)] - \\mathbb{E}_{x\\sim Q}[f(x)] \\right] \\), with \\( f \\) 1-Lipschitz.&lt;/li&gt;&lt;/ul&gt;')">
+        Wasserstein Distance &amp; Loss
+      </div>
+      <!-- Green Nodes for Wasserstein -->
+      <div class="node green" style="width: 220px; top: 970px; left: 1050px;" 
+           onclick="showInfo('Primal & Dual Forms', 
+           '&lt;ul&gt;&lt;li&gt;Primal: \\( \\min_P \\sum_{i,j} P_{ij} c_{ij} \\) with constraints on \\( P \\).&lt;/li&gt;&lt;li&gt;Dual: \\( \\max_f \\left( \\mathbb{E}_{x\\sim P_{data}}[f(x)] - \\mathbb{E}_{x\\sim P_{g}}[f(x)] \\right) \\), \\( |f(i)-f(j)| \\le 1 \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Primal & Dual Forms
+      </div>
+      <div class="node green" style="width: 220px; top: 1030px; left: 1050px;" 
+           onclick="showInfo('Wasserstein GAN Loss', 
+           '&lt;ul&gt;&lt;li&gt;Train discriminator (critic) to maximize \\( \\mathbb{E}_{x\\sim P_{data}}[f(x)] - \\mathbb{E}_{z\\sim p(z)}[f(g(z,\\theta))] \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Wasserstein GAN Loss
+      </div>
+      
+      <!-- Blue Node 5: Advanced Techniques -->
+      <div class="node blue" style="width: 250px; top: 900px; left: 50px;" 
+           onclick="showInfo('Advanced Techniques', 
+           '&lt;ul&gt;&lt;li&gt;Progressive growing: Gradually increase resolution during training.&lt;/li&gt;&lt;li&gt;Minibatch discrimination: Compare feature statistics to avoid mode collapse.&lt;/li&gt;&lt;li&gt;Truncation: Limit latent space to improve sample quality.&lt;/li&gt;&lt;/ul&gt;')">
+        Advanced Techniques
+      </div>
+      <!-- Green Nodes for Advanced Techniques -->
+      <div class="node green" style="width: 220px; top: 970px; left: 50px;" 
+           onclick="showInfo('Progressive Growing', 
+           '&lt;ul&gt;&lt;li&gt;Start with low resolution and progressively add layers as training stabilizes.&lt;/li&gt;&lt;/ul&gt;')">
+        Progressive Growing
+      </div>
+      <div class="node green" style="width: 220px; top: 1030px; left: 50px;" 
+           onclick="showInfo('Minibatch Discrimination & Truncation', 
+           '&lt;ul&gt;&lt;li&gt;Minibatch discrimination encourages diversity by comparing features across a batch.\\newline Truncation limits the range of latent variables for higher quality outputs.&lt;/li&gt;&lt;/ul&gt;')">
+        Minibatch & Truncation
+      </div>
+      
+      <!-- Blue Node 6: Conditional Generation & Image Translation -->
+      <div class="node blue" style="width: 250px; top: 500px; left: 50px;" 
+           onclick="showInfo('Conditional Generation & Image Translation', 
+           '&lt;ul&gt;&lt;li&gt;Conditional generation uses auxiliary labels to control outputs.&lt;/li&gt;&lt;li&gt;Image translation: models like Pix2Pix and CycleGAN transform images between domains.&lt;/li&gt;&lt;/ul&gt;')">
+        Conditional Generation &amp; Translation
+      </div>
+      <!-- Green Nodes for Conditional Generation -->
+      <div class="node green" style="width: 220px; top: 570px; left: 50px;" 
+           onclick="showInfo('Conditional Generation', 
+           '&lt;ul&gt;&lt;li&gt;Uses a conditional input \\( y \\) so that \\( g(z,\\theta, y) \\) generates data conditioned on \\( y \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Conditional Generation
+      </div>
+      <div class="node green" style="width: 220px; top: 630px; left: 50px;" 
+           onclick="showInfo('Image Translation', 
+           '&lt;ul&gt;&lt;li&gt;Models like Pix2Pix, SRGAN, and CycleGAN transform images between domains using paired or unpaired training data.&lt;/li&gt;&lt;/ul&gt;')">
+        Image Translation
+      </div>
+      
+      <!-- Blue Node 7: StyleGAN & Inversion -->
+      <div class="node blue" style="width: 250px; top: 100; left: 350px;" 
+           onclick="showInfo('StyleGAN &amp; Inversion', 
+           '&lt;ul&gt;&lt;li&gt;StyleGAN injects noise at different scales for realistic synthesis.&lt;/li&gt;&lt;li&gt;Inverting GANs projects real images into the latent space for editing.&lt;/li&gt;&lt;/ul&gt;')">
+        StyleGAN &amp; Inversion
+      </div>
+      <!-- Green Nodes for StyleGAN -->
+      <div class="node green" style="width: 220px; top: 170px; left: 350px;" 
+           onclick="showInfo('StyleGAN', 
+           '&lt;ul&gt;&lt;li&gt;Utilizes adaptive instance normalization to control style.\\newline Key equation: output \\( = \\text{AdaIN}(x, y) \\).&lt;/li&gt;&lt;/ul&gt;')">
+        StyleGAN
+      </div>
+      <div class="node green" style="width: 220px; top: 230px; left: 350px;" 
+           onclick="showInfo('Inverting GANs', 
+           '&lt;ul&gt;&lt;li&gt;Finds latent code \\( z \\) that minimizes \\( \\|g(z,\\theta) - x\\| \\) for a given real image \\( x \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Inverting GANs
+      </div>
+      <div class="node green" style="width: 220px; top: 290px; left: 350px;" 
+           onclick="showInfo('Conclusion & Summary', 
+           '&lt;ul&gt;&lt;li&gt;GANs learn to generate realistic data through a minimax game between generator and discriminator.\\newline Techniques such as Wasserstein loss, advanced training methods, and conditional generation improve performance.&lt;/li&gt;&lt;/ul&gt;')">
+        Conclusion &amp; Summary
+      </div>
+      
+    </div>
+    
+    <!-- Information Panel -->
+    <div id="infoPanel">
+      <div class="infoTitle" id="infoTitle">Click on a concept to see details</div>
+      <div class="infoContent" id="infoContent">
+        Select any node in the mind map to display detailed information.
+      </div>
+    </div>
+    
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legendItem">
+        <div class="legendBox red"></div>
+        <span>Big Picture Concepts</span>
+      </div>
+      <div class="legendItem">
+        <div class="legendBox blue"></div>
+        <span>Major Categories</span>
+      </div>
+      <div class="legendItem">
+        <div class="legendBox green"></div>
+        <span>Details &amp; Equations</span>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showInfo(title, content) {
+      document.getElementById("infoPanel").style.display = "block";
+      document.getElementById("infoTitle").textContent = title;
+      document.getElementById("infoContent").innerHTML = content;
+      MathJax.typesetPromise(); // Re-render LaTeX after updating content
+    }
+  </script>
+</body>
+</html>
